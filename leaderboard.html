@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ThreadsCrush</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header>
+        <div class="header-items">
+            <img class="logo" src="threads.svg">
+            <h1>ThreadsCrush</h1>
+        </div>
+    </header>
+
+    <div class="search-wrapper">
+        <input type="text" id="search">
+    </div>
+
+    <div class="table-wrapper">
+        <table class="votes-table">
+            <thead>
+                <th>#</th>
+                <th>Username</th>
+                <th>Votes</th>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+        <div class="pagination">
+            <button id="prev">Previous</button>
+            <input id="page" type="text" value="1" readonly>
+            <button id="next">Next</button>
+        </div>
+    </div>
+
+    <script src="scripts/leaderboard.js"></script>
+    <script src="scripts/animation.js"></script>
+</body>
+
+</html>
