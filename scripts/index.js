@@ -1,4 +1,5 @@
-document.querySelector('.input-wrapper').addEventListener('submit', async (e) => {
+document.querySelector('.input-wrapper').addEventListener('submit', async (e) =>
+{
     e.preventDefault()
 
     const token = grecaptcha.getResponse();
@@ -13,30 +14,50 @@ document.querySelector('.input-wrapper').addEventListener('submit', async (e) =>
             username: username.substring(1),
             recaptcha_token: token
         })
-    }).then(async response => {
-        if (!response.ok) {
-            showError(await response.text())
+    }).then(async response =>
+    {
+        if (!response.ok)
+        {
+            return showError(await response.json())
         }
-    }).catch(error => showError(error.message))
+
+        showFinal(username)
+    }).catch(_ => showError({
+        error: "SERVER_UNREACHABLE",
+        description: "The server could not be reached"
+    }))
 })
 
-document.querySelector('#username').addEventListener('keydown', (e) => {
-    if (e.key == ' ') {
+document.querySelector('#username').addEventListener('keydown', (e) =>
+{
+    if (e.key == ' ')
+    {
         e.preventDefault()
         return
     }
 
-    if (e.key != '@' && e.key != 'Backspace' && e.key.length == 1 && document.querySelector('#username').value.length == 0) {
+    if (e.key != '@' && e.key != 'Backspace' && e.key.length == 1 && document.querySelector('#username').value.length == 0)
+    {
         document.querySelector('#username').value += '@'
     }
 })
 
-document.querySelector('#username').addEventListener('keyup', () => {
+document.querySelector('#username').addEventListener('keyup', () =>
+{
     document.querySelector('#confirm').disabled = document.querySelector('#username').value.length < 2
 })
 
-function showError(message) {
+document.querySelector('#viewLeaderboard').addEventListener('click', () => {window.location.href="leaderboard.html"})
+
+function showError(obj)
+{
     document.querySelector('#error').style.opacity = 1
-    document.querySelector('#errorText').textContent = "ERROR: " + message
+    document.querySelector('#errorText').textContent = `${obj.error}: ${obj.description}`
     document.querySelector('.error-wrapper').style.animation = "showError .3s linear forwards"
+}
+
+function showFinal(username) {
+    document.querySelector('#vote-form').style.display = "none"
+    document.querySelector('.voted').style.display = "block"
+    document.querySelector('#votedUser').textContent = `@${username}`
 }

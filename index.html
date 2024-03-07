@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ThreadsCrush</title>
+    <link rel="icon" type="image/x-icon" href="threads.svg">
     <link rel="stylesheet" href="style.css">
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
@@ -17,12 +18,19 @@
         </div>
     </header>
 
+    <h1 class="title">Who's your Threads crush ?</h1>
+
     <form id="vote-form" action="?" method="POST" class="input-wrapper">
         <label for="username">Enter their username</label>
             <input id="username" name="username" type="text" placeholder="@user">
-            <div class="g-recaptcha" data-sitekey="6LdHn4spAAAAAOF8sH5f1wQV6rPRAUpcJCOKGQf7"></div>
+            <div data-theme="dark" class="g-recaptcha" data-sitekey="6LdHn4spAAAAAOF8sH5f1wQV6rPRAUpcJCOKGQf7"></div>
             <button type="submit" id="confirm" disabled="true">Confirm</button>
     </form>
+
+    <div class="voted">
+        <h1>Your vote for <span id="votedUser">&nbsp;</span> has been cast</h1>
+        <button id="viewLeaderboard">View Leaderboard</button>
+    </div>
 
     <div id="error" class="error-wrapper">
         <h2 id="errorText"></h2>

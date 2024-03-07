@@ -11,14 +11,14 @@ document.addEventListener('DOMContentLoaded', async () => {
 const pageElem = document.querySelector('#page')
 let currentPage = 1
 
-document.querySelector('#prev').addEventListener('click', () => {
+document.querySelector('#prev').addEventListener('click', async () => {
     if (currentPage > 1) {
-        pageElem.value = --currentPage
+        pageElem.value = `${--currentPage}/${last}`
     }
 })
 
-document.querySelector('#next').addEventListener('click', () => {
-    pageElem.value = ++currentPage
+document.querySelector('#next').addEventListener('click', async () => {
+    pageElem.value = `${++currentPage}/${last}`
 })
 
 function addToTable(id, username, votes) {
@@ -36,24 +36,6 @@ function addToTable(id, username, votes) {
     table.appendChild(row)
 }
 
-function generateRandomRecords(count) {
-    const records = [];
-    for (let i = 0; i < count; i++) {
-        const username = generateRandomUsername();
-        const votes = generateRandomVotes();
-        records.push({count, username, votes });
-    }
-    return records;
-}
-
-function generateRandomUsername() {
-    const adjectives = ['Happy', 'Funny', 'Clever', 'Smart', 'Creative'];
-    const nouns = ['Cat', 'Dog', 'Bird', 'Fish', 'Elephant'];
-    const adjective = adjectives[Math.floor(Math.random() * adjectives.length)];
-    const noun = nouns[Math.floor(Math.random() * nouns.length)];
-    return `${adjective} ${noun}`
-}
-
-function generateRandomVotes() {
-    return Math.floor(Math.random() * 100);
+async function getPage(page) {
+    return await (await fetch(`http://localhost:3000/api/leaderboard?page=${page}`)).json()
 }
