@@ -320,10 +320,6 @@ main {
     height: 80px;
   }
 
-  .svg-wrapper {
-    display: none;
-  }
-
   .table-wrapper {
     width: 80%;
   }
