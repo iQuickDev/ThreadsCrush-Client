@@ -1,3 +1,5 @@
+let loading = false
+
 window.addEventListener('load', () => {
     fetch('http://localhost:3000/api/vote/status')
     .then(response => response.json())
@@ -14,7 +16,7 @@ document.querySelector('.input-wrapper').addEventListener('submit', async (e) =>
 
     const token = grecaptcha.getResponse();
     const username = document.querySelector('#username').value
-
+    toggleLoading()
     fetch('http://localhost:3000/api/vote', {
         method: 'POST',
         headers: {
@@ -26,6 +28,7 @@ document.querySelector('.input-wrapper').addEventListener('submit', async (e) =>
         })
     }).then(async response =>
     {
+        toggleLoading()
         if (!response.ok)
         {
             return showError(await response.json())
@@ -75,6 +78,7 @@ document.querySelector('#changeVote').addEventListener('click', () => {
 
 function showError(obj)
 {
+    toggleLoading()
     document.querySelector('#error').style.opacity = 1
     document.querySelector('#errorText').textContent = `${obj.error}: ${obj.description}`
     document.querySelector('.error-wrapper').style.animation = "showError .3s linear forwards"
@@ -89,4 +93,17 @@ function showFinal(username) {
     document.querySelector('.title').style.display = "none"
     document.querySelector('.voted').style.display = "block"
     document.querySelector('#votedUser').textContent = username
+}
+
+function toggleLoading() {
+    let elem = document.querySelector('#confirm')
+    loading = !loading
+    if (loading) {
+        const loader = document.createElement('span')
+        loader.classList.add('loader')
+        elem.innerHTML = ''
+        elem.appendChild(loader)
+    } else {
+        elem.innerHTML = 'Confirm'
+    }
 }
