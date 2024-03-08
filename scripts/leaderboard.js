@@ -1,8 +1,8 @@
-document.addEventListener('DOMContentLoaded', async () => {
-    const records = generateRandomRecords(10)
-    
+document.addEventListener('DOMContentLoaded', async () =>
+{
     let index = 1
-    records.forEach(record => {
+    records.forEach(record =>
+    {
         addToTable(index, record.username, record.votes);
         index++
     });
@@ -10,32 +10,41 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 const pageElem = document.querySelector('#page')
 let currentPage = 1
+let last = 23
 
-document.querySelector('#prev').addEventListener('click', async () => {
-    if (currentPage > 1) {
+document.querySelector('#prev').addEventListener('click', async () =>
+{
+    if (currentPage > 1)
+    {
         pageElem.value = `${--currentPage}/${last}`
     }
 })
 
-document.querySelector('#next').addEventListener('click', async () => {
-    pageElem.value = `${++currentPage}/${last}`
+document.querySelector('#next').addEventListener('click', async () =>
+{
+    if (currentPage < last) {
+        pageElem.value = `${++currentPage}/${last}`
+    }
+
 })
 
-function addToTable(id, username, votes) {
-    const table = document.querySelector('.votes-table');
+function addToTable(rank, username, votes)
+{
+    const tableBody = document.querySelector('tbody');
     const row = document.createElement('tr');
-    const idTd = document.createElement('td');
+    const rankTd = document.createElement('td');
     const usernameTd = document.createElement('td');
     const votesTd = document.createElement('td');
-    idTd.textContent = id
+    rankTd.textContent = rank
     usernameTd.textContent = username
     votesTd.textContent = votes
-    row.appendChild(idTd)
+    row.appendChild(rankTd)
     row.appendChild(usernameTd)
     row.appendChild(votesTd)
-    table.appendChild(row)
+    tableBody.appendChild(row)
 }
 
-async function getPage(page) {
+async function getPage(page)
+{
     return await (await fetch(`http://localhost:3000/api/leaderboard?page=${page}`)).json()
 }

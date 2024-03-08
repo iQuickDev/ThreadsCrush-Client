@@ -1,3 +1,13 @@
+window.addEventListener('load', () => {
+    fetch('http://localhost:3000/api/vote/status')
+    .then(response => response.json())
+    .then(data => {
+        if (data.voted_user) {
+            showFinal(data.voted_user)
+        }
+    })
+})
+
 document.querySelector('.input-wrapper').addEventListener('submit', async (e) =>
 {
     e.preventDefault()
@@ -48,6 +58,20 @@ document.querySelector('#username').addEventListener('keyup', () =>
 })
 
 document.querySelector('#viewLeaderboard').addEventListener('click', () => {window.location.href="leaderboard.html"})
+document.querySelector('#changeVote').addEventListener('click', () => {
+    fetch('http://localhost:3000/api/vote', {
+        method: 'DELETE'
+    }).then(response => {
+        if (response.ok) {
+            window.location.href = '/'
+        } else {
+            showError(response)
+        }
+    }).catch(_ => showError({
+        error: "SERVER_UNREACHABLE",
+        description: "The server could not be reached"
+    }))
+})
 
 function showError(obj)
 {
@@ -56,8 +80,13 @@ function showError(obj)
     document.querySelector('.error-wrapper').style.animation = "showError .3s linear forwards"
 }
 
+function hideError() {
+    document.querySelector('#error').style.opacity = 0
+}
+
 function showFinal(username) {
     document.querySelector('#vote-form').style.display = "none"
+    document.querySelector('.title').style.display = "none"
     document.querySelector('.voted').style.display = "block"
-    document.querySelector('#votedUser').textContent = `@${username}`
+    document.querySelector('#votedUser').textContent = username
 }

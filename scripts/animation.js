@@ -1,13 +1,16 @@
-fetch('threads.svg')
-.then(response => response.text())
-.then(svgData => {
-    for (let i = 0; i < 100; i++) {
-        insertSVG(svgData, 'body')
-    }
-    
-})
+fetch('assets/threads.svg')
+    .then(response => response.text())
+    .then(svgData =>
+    {
+        for (let i = 0; i < 100; i++)
+        {
+            insertSVG(svgData, 'body')
+        }
 
-function insertSVG(svgData, containerId) {
+    })
+
+function insertSVG(svgData, containerId)
+{
     const container = document.querySelector(containerId);
     const svgWrapper = document.createElement('div');
     svgWrapper.className = 'svg-wrapper';
