@@ -73,6 +73,7 @@ header div {
   margin: auto;
   display: flex;
   flex-direction: row;
+  padding-left: 80px;
 }
 
 .logo {
@@ -306,6 +307,11 @@ main {
   height: 40px;
   padding: 20px;
   cursor: pointer;
+  transition: filter .25s;
+}
+
+.credits:hover, .credits:active {
+  filter: drop-shadow(0 0 5px #FFFA);
 }
 
 @keyframes showError {
@@ -371,5 +377,10 @@ main {
   main {
     height: 80vh;
   }
+}
 
+@media only screen and (max-width: 500px) {
+  header div {
+    padding-left: 0px;
+  }
 }
