@@ -60,6 +60,7 @@ document.querySelector('#username').addEventListener('keyup', () =>
     document.querySelector('#confirm').disabled = document.querySelector('#username').value.length < 2
 })
 
+document.querySelector('#github').addEventListener('click', () => window.location.href="https://github.com/iQuickDev/ThreadsCrush-Server")
 document.querySelector('#viewLeaderboard').addEventListener('click', () => {window.location.href="leaderboard.html"})
 document.querySelector('#changeVote').addEventListener('click', () => {
     fetch('http://localhost:3000/api/vote', {
