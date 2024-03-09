@@ -13,33 +13,32 @@
 </head>
 
 <body>
-        <header>
-            <div class="header-items">
-                <div>
-                    <img class="logo" src="assets/threads.svg">
-                    <h2>ThreadsCrush</h2>
-                </div>
-            </div>
-        </header>
-
-        <h1 class="title">Who's your Threads crush?</h1>
-
-        <form id="vote-form" action="?" method="POST" class="input-wrapper">
-            <label for="username">Enter their username</label>
-            <input id="username" name="username" type="text" placeholder="@user">
-            <div data-theme="dark" class="g-recaptcha" data-sitekey="6LdHn4spAAAAAOF8sH5f1wQV6rPRAUpcJCOKGQf7"></div>
-            <button type="submit" id="confirm" disabled="true">Confirm</button>
-        </form>
-
-        <div class="voted">
-            <h1>Your vote for <span id="votedUser">&nbsp;</span> has been cast</h1>
-            <button id="changeVote">Change Vote</button>
-            <button id="viewLeaderboard">View Leaderboard</button>
+    <header>
+        <div>
+            <img class="logo" src="assets/threads.svg">
+            <h2 class="header-title">ThreadsCrush</h2>
         </div>
+        <img class="credits" src="assets/github.svg">
+    </header>
 
-        <div id="error" class="error-wrapper">
-            <h2 id="errorText"></h2>
-        </div>
+    <h1 class="title">Who's your Threads crush?</h1>
+
+    <form id="vote-form" action="?" method="POST" class="input-wrapper">
+        <label for="username">Enter their username</label>
+        <input id="username" name="username" type="text" placeholder="@user">
+        <div data-theme="dark" class="g-recaptcha" data-sitekey="6LdHn4spAAAAAOF8sH5f1wQV6rPRAUpcJCOKGQf7"></div>
+        <button type="submit" id="confirm" disabled="true">Confirm</button>
+    </form>
+
+    <div class="voted">
+        <h1>Your vote for <span id="votedUser">&nbsp;</span> has been cast</h1>
+        <button id="changeVote">Change Vote</button>
+        <button id="viewLeaderboard">View Leaderboard</button>
+    </div>
+
+    <div id="error" class="error-wrapper">
+        <h2 id="errorText"></h2>
+    </div>
 
     <script src="scripts/animation.js"></script>
 </body>

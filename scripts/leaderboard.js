@@ -1,31 +1,38 @@
-document.addEventListener('DOMContentLoaded', async () =>
-{
-    let index = 1
-    records.forEach(record =>
-    {
-        addToTable(index, record.username, record.votes);
-        index++
-    });
-});
-
 const pageElem = document.querySelector('#page')
-let currentPage = 1
-let last = 23
+let username = ''
+let pagination = {
+    current: 1,
+    last: 0,
+}
+
+window.addEventListener('load', async () =>
+{
+    buildTable(await getPage(1))
+})
 
 document.querySelector('#prev').addEventListener('click', async () =>
 {
-    if (currentPage > 1)
+    if (pagination.current > 1)
     {
-        pageElem.value = `${--currentPage}/${last}`
+        pageElem.value = `${--pagination.current}/${pagination.last}`
+        buildTable(await getPage(pagination.current))
     }
 })
 
 document.querySelector('#next').addEventListener('click', async () =>
 {
-    if (currentPage < last) {
-        pageElem.value = `${++currentPage}/${last}`
+    if (pagination.current < pagination.last) {
+        pageElem.value = `${++pagination.current}/${pagination.last}`
+        buildTable(await getPage(pagination.current))
     }
+})
 
+document.querySelector('#search-input').addEventListener('input', (e) => {
+    username = e.target.value
+})
+
+document.querySelector('#search').addEventListener('click', async () => {
+    buildTable(await getPage(1, username))
 })
 
 function addToTable(rank, username, votes)
@@ -44,7 +51,17 @@ function addToTable(rank, username, votes)
     tableBody.appendChild(row)
 }
 
-async function getPage(page)
+async function getPage(page, username = null)
 {
-    return await (await fetch(`http://localhost:3000/api/leaderboard?page=${page}`)).json()
+    return await (await fetch(`http://192.168.1.100:3000/api/leaderboard?page=${page}${username != null ? '&username=' + username : ''}`)).json()
+}
+
+function buildTable(leaderboardResponse) {
+    document.querySelector('tbody').innerHTML = ''
+    leaderboardResponse.users.forEach((user) => {
+        addToTable(user.rank, user.username, user.votes)
+    })
+
+    pagination = leaderboardResponse.pagination
+    pageElem.value = `${pagination.current}/${pagination.last}`
 }
