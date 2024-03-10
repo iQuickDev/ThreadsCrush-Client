@@ -63,7 +63,7 @@ function addToTable(rank, username, votes)
 async function getPage(page, username = null)
 {
     toggleTableLoading()
-    return await (await fetch(`http://localhost:3000/api/leaderboard?page=${page}${username != null ? '&username=' + username : ''}`)).json()
+    return await (await fetch(`https://production.threadscrush.online/api/leaderboard?page=${page}${username != null ? '&username=' + username : ''}`)).json()
 }
 
 function buildTable(leaderboardResponse) {

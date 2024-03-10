@@ -4,7 +4,7 @@ if (localStorage.getItem('voted_user') != null) {
     showFinal(localStorage.getItem('voted_user'))
     
 } else {
-    fetch('http://localhost:3000/api/vote/status')
+    fetch('https://production.threadscrush.online/api/vote/status')
     .then(response => response.json())
     .then(data => {
         if (data.voted_user) {
@@ -20,7 +20,7 @@ document.querySelector('.input-wrapper').addEventListener('submit', async (e) =>
     const token = grecaptcha.getResponse();
     const username = document.querySelector('#username').value
     toggleLoading()
-    fetch('http://localhost:3000/api/vote', {
+    fetch('https://production.threadscrush.online/api/vote', {
         method: 'POST',
         headers: {
             "Content-Type": "application/json"
@@ -65,7 +65,7 @@ document.querySelector('#username').addEventListener('keyup', () =>
 document.querySelector('#github').addEventListener('click', () => window.location.href="https://github.com/iQuickDev/ThreadsCrush-Server")
 document.querySelector('#viewLeaderboard').addEventListener('click', () => {window.location.href="leaderboard.html"})
 document.querySelector('#changeVote').addEventListener('click', () => {
-    fetch('http://localhost:3000/api/vote', {
+    fetch('https://production.threadscrush.online/api/vote', {
         method: 'DELETE'
     }).then(response => {
         if (response.ok) {
