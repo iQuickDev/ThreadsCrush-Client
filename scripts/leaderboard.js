@@ -4,6 +4,9 @@ let pagination = {
     current: 1,
     last: 0,
 }
+let tableLoading = false
+
+document.querySelector('#home').addEventListener('click', () => window.location.href = "/")
 
 window.addEventListener('load', async () =>
 {
@@ -12,6 +15,9 @@ window.addEventListener('load', async () =>
 
 document.querySelector('#prev').addEventListener('click', async () =>
 {
+    if (tableLoading) {
+        return
+    }
     if (pagination.current > 1)
     {
         pageElem.value = `${--pagination.current}/${pagination.last}`
@@ -21,6 +27,9 @@ document.querySelector('#prev').addEventListener('click', async () =>
 
 document.querySelector('#next').addEventListener('click', async () =>
 {
+    if (tableLoading) {
+        return
+    }
     if (pagination.current < pagination.last) {
         pageElem.value = `${++pagination.current}/${pagination.last}`
         buildTable(await getPage(pagination.current))
@@ -53,15 +62,37 @@ function addToTable(rank, username, votes)
 
 async function getPage(page, username = null)
 {
-    return await (await fetch(`https://production.threadscrush.online/api/leaderboard?page=${page}${username != null ? '&username=' + username : ''}`)).json()
+    toggleTableLoading()
+    return await (await fetch(`http://localhost:3000/api/leaderboard?page=${page}${username != null ? '&username=' + username : ''}`)).json()
 }
 
 function buildTable(leaderboardResponse) {
+    toggleTableLoading()
     document.querySelector('tbody').innerHTML = ''
     leaderboardResponse.users.forEach((user) => {
         addToTable(user.rank, user.username, user.votes)
     })
 
+    for (let i = 0; i < 15 - leaderboardResponse.users.length; i++) {
+        addToTable('\xA0\xA0\xA0','\xA0\xA0\xA0','\xA0\xA0\xA0')
+    }
+
     pagination = leaderboardResponse.pagination
     pageElem.value = `${pagination.current}/${pagination.last}`
+}
+
+function toggleTableLoading() {
+    tableLoading = !tableLoading
+    let elem = document.querySelector('tbody')
+    if (tableLoading) {
+        const wrapper = document.createElement('div')
+        wrapper.classList.add('table-loader')
+        const loader = document.createElement('span')
+        loader.classList.add('loader')
+        wrapper.appendChild(loader)
+        elem.innerHTML = ''
+        elem.appendChild(wrapper)
+    } else {
+        elem.innerHTML = ''
+    }
 }

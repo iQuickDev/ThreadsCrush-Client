@@ -32,6 +32,13 @@ h1, h2, h3, h4, h5, h6 {
   margin: auto;
 }
 
+.table-loader {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
 .input-wrapper {
   display: flex;
   flex-direction: column;
@@ -63,6 +70,10 @@ header {
   display: flex;
   flex-direction: row;
   font-size: 1.4rem;
+}
+
+#home {
+  cursor: pointer;
 }
 
 header h2 {
@@ -128,14 +139,14 @@ label {
 }
 
 .error-wrapper {
+  position: absolute;
+  bottom: 0px;
   margin: auto;
-  margin-top: 3rem;
-  width: 50%;
+  width: 100%;
   padding: 5px 5px;
   background: rgba(255, 0, 0, 0.1);
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
-  border-radius: 10px;
   border: 1px solid rgba(255, 0, 0, 0.18);
   opacity: 0;
   text-align: center;
@@ -146,12 +157,15 @@ label {
   font-size: 1.5rem;
   padding: 10px;
   width: 100%;
-
   overflow: scroll;
 }
 
 .votes-table thead {
   font-size: 2rem;
+}
+
+.votes-table tbody {
+  height: 480px;
 }
 
 .votes-table td {
@@ -314,18 +328,8 @@ main {
   filter: drop-shadow(0 0 5px #FFFA);
 }
 
-@keyframes showError {
-  0% {
-    transform: translateY(300px);
-  }
-
-  90% {
-    transform: translateY(-10px);
-  }
-
-  100% {
-    transform: translateY(0px);
-  }
+#search img {
+  filter: invert(1);
 }
 
 @keyframes moveUp {

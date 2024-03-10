@@ -1,14 +1,17 @@
 let loading = false
 
-window.addEventListener('load', () => {
-    fetch('https://production.threadscrush.online/api/vote/status')
+if (localStorage.getItem('voted_user') != null) {
+    showFinal(localStorage.getItem('voted_user'))
+    
+} else {
+    fetch('http://localhost:3000/api/vote/status')
     .then(response => response.json())
     .then(data => {
         if (data.voted_user) {
             showFinal(data.voted_user)
         }
     })
-})
+}
 
 document.querySelector('.input-wrapper').addEventListener('submit', async (e) =>
 {
@@ -17,7 +20,7 @@ document.querySelector('.input-wrapper').addEventListener('submit', async (e) =>
     const token = grecaptcha.getResponse();
     const username = document.querySelector('#username').value
     toggleLoading()
-    fetch('https://production.threadscrush.online/api/vote', {
+    fetch('http://localhost:3000/api/vote', {
         method: 'POST',
         headers: {
             "Content-Type": "application/json"
@@ -28,7 +31,6 @@ document.querySelector('.input-wrapper').addEventListener('submit', async (e) =>
         })
     }).then(async response =>
     {
-        toggleLoading()
         if (!response.ok)
         {
             return showError(await response.json())
@@ -63,10 +65,11 @@ document.querySelector('#username').addEventListener('keyup', () =>
 document.querySelector('#github').addEventListener('click', () => window.location.href="https://github.com/iQuickDev/ThreadsCrush-Server")
 document.querySelector('#viewLeaderboard').addEventListener('click', () => {window.location.href="leaderboard.html"})
 document.querySelector('#changeVote').addEventListener('click', () => {
-    fetch('https://production.threadscrush.online/api/vote', {
+    fetch('http://localhost:3000/api/vote', {
         method: 'DELETE'
     }).then(response => {
         if (response.ok) {
+            localStorage.removeItem('voted_user')
             window.location.href = '/'
         } else {
             showError(response)
@@ -81,8 +84,8 @@ function showError(obj)
 {
     toggleLoading()
     document.querySelector('#error').style.opacity = 1
-    document.querySelector('#errorText').textContent = `${obj.error}: ${obj.description}`
-    document.querySelector('.error-wrapper').style.animation = "showError .3s linear forwards"
+    document.querySelector('#errorTitle').textContent = obj.error
+    document.querySelector('#errorText').textContent = obj.description
 }
 
 function hideError() {
@@ -90,6 +93,7 @@ function hideError() {
 }
 
 function showFinal(username) {
+    localStorage.setItem('voted_user', username)
     document.querySelector('#vote-form').style.display = "none"
     document.querySelector('.title').style.display = "none"
     document.querySelector('.voted').style.display = "block"
@@ -97,8 +101,8 @@ function showFinal(username) {
 }
 
 function toggleLoading() {
-    let elem = document.querySelector('#confirm')
     loading = !loading
+    let elem = document.querySelector('#confirm')
     if (loading) {
         const loader = document.createElement('span')
         loader.classList.add('loader')
