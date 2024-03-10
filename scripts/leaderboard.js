@@ -53,7 +53,7 @@ function addToTable(rank, username, votes)
 
 async function getPage(page, username = null)
 {
-    return await (await fetch(`http://192.168.1.100:3000/api/leaderboard?page=${page}${username != null ? '&username=' + username : ''}`)).json()
+    return await (await fetch(`https://production.threadscrush.online/api/leaderboard?page=${page}${username != null ? '&username=' + username : ''}`)).json()
 }
 
 function buildTable(leaderboardResponse) {
