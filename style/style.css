@@ -342,12 +342,11 @@ main {
   }
 }
 
-@media (max-aspect-ratio: 3/4) {
+@media only screen and (max-width: 576px) {
   #username {
     width: 80%;
     height: 80px;
     color: var(--text);
-    font-size: 2rem;
     padding-left: 1rem;
   }
 
@@ -381,9 +380,7 @@ main {
   main {
     height: 80vh;
   }
-}
 
-@media only screen and (max-width: 500px) {
   header div {
     padding-left: 0px;
   }

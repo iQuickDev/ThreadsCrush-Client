@@ -4,7 +4,7 @@ if (localStorage.getItem('voted_user') != null) {
     showFinal(localStorage.getItem('voted_user'))
     
 } else {
-    fetch('https://production.threadscrush.online/api/vote/status')
+    fetch('production.threadscrush.online/api/vote/status')
     .then(response => response.json())
     .then(data => {
         if (data.voted_user) {
@@ -20,7 +20,7 @@ document.querySelector('.input-wrapper').addEventListener('submit', async (e) =>
     const token = grecaptcha.getResponse();
     const username = document.querySelector('#username').value
     toggleLoading()
-    fetch('https://production.threadscrush.online/api/vote', {
+    fetch('production.threadscrush.online/api/vote', {
         method: 'POST',
         headers: {
             "Content-Type": "application/json"
@@ -33,11 +33,11 @@ document.querySelector('.input-wrapper').addEventListener('submit', async (e) =>
     {
         if (!response.ok)
         {
-            return showError(await response.json())
+            return await showError(await response.json())
         }
 
         showFinal(username)
-    }).catch(_ => showError({
+    }).catch(async _ => await showError({
         error: "SERVER_UNREACHABLE",
         description: "The server could not be reached"
     }))
@@ -65,14 +65,14 @@ document.querySelector('#username').addEventListener('keyup', () =>
 document.querySelector('#github').addEventListener('click', () => window.location.href="https://github.com/iQuickDev/ThreadsCrush-Server")
 document.querySelector('#viewLeaderboard').addEventListener('click', () => {window.location.href="leaderboard.html"})
 document.querySelector('#changeVote').addEventListener('click', () => {
-    fetch('https://production.threadscrush.online/api/vote', {
+    fetch('production.threadscrush.online/api/vote', {
         method: 'DELETE'
-    }).then(response => {
+    }).then(async response => {
         if (response.ok) {
             localStorage.removeItem('voted_user')
             window.location.href = '/'
         } else {
-            showError(response)
+            await showError(response)
         }
     }).catch(_ => showError({
         error: "SERVER_UNREACHABLE",
@@ -80,12 +80,13 @@ document.querySelector('#changeVote').addEventListener('click', () => {
     }))
 })
 
-function showError(obj)
+async function showError(obj)
 {
     toggleLoading()
     document.querySelector('#error').style.opacity = 1
     document.querySelector('#errorTitle').textContent = obj.error
     document.querySelector('#errorText').textContent = obj.description
+    await new Promise(r => setTimeout(r, 3000))
 }
 
 function hideError() {
